@@ -1,9 +1,10 @@
 from src.application.dtos.link_dtos import ShortLinkResponse
 from src.domain.exceptions.link_exceptions import LinkNotFoundError
+from src.application.interfaces.unit_of_work import AbstractUnitOfWork
 
 
 class GetLinkStats:
-    def __init__(self, uow) -> None:
+    def __init__(self, uow: AbstractUnitOfWork) -> None:
         self._uow = uow
 
     async def execute(self, code: str) -> ShortLinkResponse:
