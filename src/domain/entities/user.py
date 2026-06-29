@@ -1,5 +1,5 @@
-"""user entity"""
 from datetime import datetime, timezone as tz
+from secrets import token_urlsafe
 
 class User:
     def __init__(self, email: str, password: str, api_key: str, created_at: datetime|None, is_active: bool = True, updated_at: datetime|None = None, id: int|None=None) -> None:
@@ -18,8 +18,8 @@ class User:
         self.updated_at = datetime.now(tz.utc)
     
     @staticmethod
-    def generate_api_key():
-        pass
+    def generate_api_key() -> str:
+        return token_urlsafe(32)
     
     def has_permission(self) -> bool:
         return False
