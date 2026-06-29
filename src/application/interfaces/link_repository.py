@@ -2,7 +2,7 @@
 
 from abc import ABC, abstractmethod
 
-from ...domain.entities.scode import ShortLink
+from ...domain.entities.short_link import ShortLink
 
 class IShortLinkRepository(ABC):
     @abstractmethod
