@@ -1,9 +1,9 @@
 from src.domain.exceptions.link_exceptions import LinkExpiredError, LinkNotFoundError
 from src.domain.entities.short_link import ShortLink
-
+from src.application.interfaces.unit_of_work import AbstractUnitOfWork
 
 class ResolveShortLink:
-    def __init__(self, uow) -> None:
+    def __init__(self, uow: AbstractUnitOfWork) -> None:
         self._uow = uow
 
     async def execute(self, code: str) -> ShortLink:

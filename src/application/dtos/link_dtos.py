@@ -4,7 +4,7 @@ from datetime import datetime
 
 class CreateShortLinkRequest(BaseModel):
     original_url: HttpUrl
-    user_id: int | None = Field(None, description="Owner of the shortlink")
+    user_id: int = Field(..., description="Owner of the shortlink")
 
 
 class ShortLinkResponse(BaseModel):

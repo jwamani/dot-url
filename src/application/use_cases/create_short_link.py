@@ -27,7 +27,7 @@ class CreateShortLink:
             await uow.commit()
 
         return ShortLinkResponse(
-            id=created.id,
+            id=created.id if created.id is not None else -1,
             user_id=created.user_id,
             original_url=created.original_url,
             click_count=created.click_count,
