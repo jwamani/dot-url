@@ -6,7 +6,7 @@ from ...domain.entities.short_link import ShortLink
 
 class IShortLinkRepository(ABC):
     @abstractmethod
-    async def create_link(self, ShortLink) -> ShortLink:
+    async def create_link(self, link: ShortLink) -> ShortLink:
         """Create a new short link"""
         pass
     
