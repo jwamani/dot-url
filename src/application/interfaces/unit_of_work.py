@@ -5,13 +5,8 @@ from src.application.interfaces.user_repository import IUserRepository
 
 
 class AbstractUnitOfWork(ABC):
-    @property
-    @abstractmethod
-    def links(self) -> IShortLinkRepository: ...
-
-    @property
-    @abstractmethod
-    def users(self) -> IUserRepository: ...
+    users: "IUserRepository"
+    links: "IShortLinkRepository"
 
     @abstractmethod
     async def __aenter__(self) -> "AbstractUnitOfWork": ...
