@@ -10,7 +10,7 @@ class ShortLink:
         self.original_url = original_url
         self.click_count = click_count
         self.created_at = created_at or datetime.now(tz.utc)
-        self.expires_at: datetime|None = None
+        self.expires_at = expires_at
     
     def is_expired(self) -> bool:
         if self.expires_at is None:
