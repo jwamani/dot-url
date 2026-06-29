@@ -16,6 +16,6 @@ class GetLinkStats:
             user_id=link.user_id,
             original_url=link.original_url,
             click_count=link.click_count,
-            expires_at=link.expires_at or link.created_at,
+            expires_at=link.expires_at,
             created_at=link.created_at,
         )

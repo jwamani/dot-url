@@ -19,7 +19,7 @@ class CreateShortLink:
                 id=None,
                 user_id=request.user_id,
                 scode=code,
-                original_url=request.original_url,
+                original_url=str(request.original_url),
                 click_count=0,
                 created_at=datetime.now(tz.utc),
             )
@@ -31,6 +31,6 @@ class CreateShortLink:
             user_id=created.user_id,
             original_url=created.original_url,
             click_count=created.click_count,
-            expires_at=created.expires_at or datetime.now(tz.utc),
+            expires_at=created.expires_at,
             created_at=created.created_at,
         )
