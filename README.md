@@ -32,4 +32,8 @@ prevent heavy reads on the db.
 an api key per user is generated. every post must be included with the key
 
 5. rate limiting
-keep track of the request rate of a user in the cache and block if they exceed
+keep track of the request rate of a user in the cache and block if they exceed.
+
+- follows clean architecture.
+
+interfaces needed; link_repo.., user_repo.., cache_repo.., code_generator.
