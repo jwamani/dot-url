@@ -1,22 +1,21 @@
 from datetime import datetime
 
 from sqlalchemy import DateTime, ForeignKey, Integer, String, Text, func
-from sqlalchemy.orm import Mapped, mapped_column, registry
+from sqlalchemy.orm import Mapped, mapped_column
 
-from src.infrastructure.models.user import table_registry
+from src.infrastructure.database.base import Base
 
 
-@table_registry.mapped_as_dataclass
-class ShortLink:
+class ShortLink(Base):
     __tablename__ = "short_links"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, init=False)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=True)
     short_code: Mapped[str] = mapped_column(String(10), unique=True, nullable=False)
     original_url: Mapped[str] = mapped_column(Text, nullable=False)
     click_count: Mapped[int] = mapped_column(Integer, default=0)
     created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now(), init=False
+        DateTime(timezone=True), server_default=func.now()
     )
     expires_at: Mapped[datetime | None] = mapped_column(
         DateTime(timezone=True), nullable=True, default=None
