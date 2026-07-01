@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 container = Container()
+container.wire(modules=[link])
 engine = container.engine()
 
 
