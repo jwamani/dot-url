@@ -9,6 +9,7 @@ from src.container import Container
 from src.presentation.api.v1 import link
 from src.infrastructure.database.base import Base
 from src.config.logging_conf import setup_logging
+from src.presentation.error_handler import register_exception_handlers
 
 setup_logging()
 
@@ -36,6 +37,8 @@ async def lifespan(app: FastAPI) -> AsyncGenerator:
 
 
 app = FastAPI(lifespan=lifespan)
+
+register_exception_handlers(app)
 
 app.include_router(link.router, prefix="/api")
 
