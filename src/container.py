@@ -9,7 +9,7 @@ from src.infrastructure.database.unit_of_work import UnitOfWork
 from src.infrastructure.id_generation.nanoid_gen import NanoidIdGenerator
 
 
-class ApplicationContainer(containers.DeclarativeContainer):
+class Container(containers.DeclarativeContainer):
     config = providers.Singleton(Settings)
 
     engine = providers.Singleton(create_engine, config.provided.db_url)

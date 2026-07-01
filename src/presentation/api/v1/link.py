@@ -6,7 +6,7 @@ from src.application.dtos.link_dtos import CreateShortLinkRequest, ShortLinkResp
 from src.application.use_cases.create_short_link import CreateShortLink
 from src.application.use_cases.get_link_stats import GetLinkStats
 from src.application.use_cases.resolve_short_link import ResolveShortLink
-from src.container import ApplicationContainer
+from src.container import Container
 from src.domain.exceptions.link_exceptions import LinkExpiredError, LinkNotFoundError
 
 router = APIRouter(tags=["Shorten"])
@@ -16,7 +16,7 @@ router = APIRouter(tags=["Shorten"])
 @inject
 async def create_link(
     link_request: CreateShortLinkRequest,
-    usecase: CreateShortLink = Depends(Provide[ApplicationContainer.create_short_link]),
+    usecase: CreateShortLink = Depends(Provide[Container.create_short_link]),
 ):
     return await usecase.execute(link_request)
 
@@ -25,7 +25,7 @@ async def create_link(
 @inject
 async def redirect(
     code: str,
-    usecase: ResolveShortLink = Depends(Provide[ApplicationContainer.resolve_short_link]),
+    usecase: ResolveShortLink = Depends(Provide[Container.resolve_short_link]),
 ):
     try:
         link = await usecase.execute(code)
@@ -40,7 +40,7 @@ async def redirect(
 @inject
 async def get_stats(
     code: str,
-    usecase: GetLinkStats = Depends(Provide[ApplicationContainer.get_link_stats]),
+    usecase: GetLinkStats = Depends(Provide[Container.get_link_stats]),
 ):
     try:
         return await usecase.execute(code)

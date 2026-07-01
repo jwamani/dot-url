@@ -5,7 +5,7 @@ from fastapi import FastAPI
 import uvicorn
 import logging
 
-from src.container import ApplicationContainer as Container
+from src.container import Container
 from src.presentation.api.v1 import link
 from src.infrastructure.database.base import Base
 from src.config.logging_conf import setup_logging
