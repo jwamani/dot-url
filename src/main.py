@@ -3,18 +3,34 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 import uvicorn
+import logging
 
-from src.container import ApplicationContainer
+from src.container import ApplicationContainer as Container
 from src.presentation.api.v1 import link
+from src.infrastructure.database.base import Base
+from src.config.logging_conf import setup_logging
+
+setup_logging()
+
+logger = logging.getLogger(__name__)
+
+
+container = Container()
+engine = container.engine()
+
+
+async def init_models():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator:
-    container = ApplicationContainer()
-    app.state.container = container
-    container.wire(modules=[link])
+    await init_models()
+    logger.info("Application startup: Database models initialized.")
     yield
-    engine = container.engine()
+    logger.info("Shutting down: Closing database connection...")
     await engine.dispose()
 
 
