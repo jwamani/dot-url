@@ -1,12 +1,16 @@
 from dependency_injector import containers, providers
 
-from src.application.use_cases.create_short_link import CreateShortLink
-from src.application.use_cases.get_link_stats import GetLinkStats
-from src.application.use_cases.resolve_short_link import ResolveShortLink
+from src.application.use_cases import (
+    CreateShortLink,
+    GetLinkStats,
+    ResolveShortLink,
+    CreateUser
+)
 from src.infrastructure.config import Settings
 from src.infrastructure.database.connection import create_engine, create_session_factory
 from src.infrastructure.database.unit_of_work import UnitOfWork
 from src.infrastructure.id_generation.nanoid_gen import NanoidIdGenerator
+from src.application.interfaces import IApiKeyGenRepository #TODO: replace with final implementation
 
 
 class Container(containers.DeclarativeContainer):
@@ -24,6 +28,7 @@ class Container(containers.DeclarativeContainer):
     )
 
     id_generator = providers.Singleton(NanoidIdGenerator)
+    api_key_generator = providers.Singleton(IApiKeyGenRepository) 
 
     create_short_link = providers.Factory(
         CreateShortLink,
@@ -39,4 +44,10 @@ class Container(containers.DeclarativeContainer):
     get_link_stats = providers.Factory(
         GetLinkStats,
         uow=uow,
+    )
+    
+    create_user = providers.Factory(
+        CreateUser,
+        uow=uow,
+        api_key_generator=api_key_generator
     )
