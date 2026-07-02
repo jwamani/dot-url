@@ -6,7 +6,7 @@ import uvicorn
 import logging
 
 from src.container import Container
-from src.presentation.api.v1 import link
+from src.presentation.api.v1 import link, users
 from src.infrastructure.database.base import Base
 from src.config.logging_conf import setup_logging
 from src.presentation.error_handler import register_exception_handlers
@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 container = Container()
-container.wire(modules=[link])
+container.wire(modules=[link, users])
 engine = container.engine()
 
 
