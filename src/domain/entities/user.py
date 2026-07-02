@@ -2,7 +2,7 @@ from datetime import datetime, timezone as tz
 from secrets import token_urlsafe
 
 class User:
-    def __init__(self, email: str, password: str, api_key: str, created_at: datetime|None, is_active: bool = True, updated_at: datetime|None = None, id: int|None=None) -> None:
+    def __init__(self, email: str, password: str, api_key: str, created_at: datetime|None = None, is_active: bool = True, updated_at: datetime|None = None, id: int|None=None) -> None:
         self.id = id
         self.email = email
         self.password = password
