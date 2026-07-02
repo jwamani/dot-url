@@ -1,6 +1,7 @@
 from src.domain.entities.user import User
 from src.application.interfaces import IApiKeyGenRepository, AbstractUnitOfWork, IUserRepository
 from src.application.dtos.user_dtos import CreateUserRequest, UserResponse
+from src.domain.exceptions.user_exceptions import EmailAlreadyExistsError
 
 class CreateUser:
     def __init__(self, uow: AbstractUnitOfWork, api_key_generator: IApiKeyGenRepository) -> None:
@@ -8,6 +9,10 @@ class CreateUser:
         self._api_key_generator = api_key_generator
     
     async def execute(self, request: CreateUserRequest) -> UserResponse:
+        existing_email = await self._uow.users.get_user_by_email(request.email)
+        if existing_email:
+            raise EmailAlreadyExistsError(request.email)
+        
         api_key = self._api_key_generator.generate()
         user = User(
             email=request.email,
