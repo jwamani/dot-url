@@ -6,7 +6,7 @@ class CreateUserRequest(BaseModel):
     password: str = Field(..., min_length=8, description="The user's password")
 
 class UserResponse(BaseModel):
-    id: int = Field(..., description="The user's unique indentifier")
+    id: str = Field(..., description="The user's unique indentifier")
     email: EmailStr = Field(..., description="The user's email address")
     api_key: str = Field(..., description="The user's API key")
     is_active: bool = Field(..., description="Indicates if the user is active")

@@ -18,16 +18,16 @@ class CreateUser:
             user = User(
                 email=request.email,
                 password=request.password,
-                api_key=api_key,
+                api_key_hash=api_key,
             )
             
             created_user = await uow.users.create_user(user)
             await uow.commit()
         
         return UserResponse(
-            id=created_user.id or 0,
+            id=created_user.id or "",
             email=created_user.email,
-            api_key=created_user.api_key,
+            api_key=created_user.api_key_hash,
             is_active=created_user.is_active,
             created_at=created_user.created_at.isoformat() ,
             updated_at=created_user.updated_at.isoformat()
