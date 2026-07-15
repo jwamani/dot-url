@@ -10,6 +10,8 @@ dependencies = [
     "pydantic[email]>=2.0.0",
     "pydantic-settings>=2.0.0",
     "dependency-injector>=4.40.0",
+    "alembic>=1.18.5",
+    "psycopg2-binary>=2.9.12",
 ]
 
 [project.optional-dependencies]
