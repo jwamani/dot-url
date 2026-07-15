@@ -14,16 +14,16 @@ class UserRepository(IUserRepository):
         model = UserModel(
             email=user.email,
             password=user.password,
-            api_key=user.api_key,
+            api_key=user.api_key_hash,
             is_active=user.is_active,
         )
         self._session.add(model)
         await self._session.flush()
         return User(
-            id=model.id,
+            id=str(model.id),
             email=model.email,
             password=model.password,
-            api_key=model.api_key,
+            api_key_hash=model.api_key_hash,
             is_active=model.is_active,
             created_at=model.created_at,
             updated_at=model.updated_at,
@@ -37,10 +37,10 @@ class UserRepository(IUserRepository):
         if model is None:
             return None
         return User(
-            id=model.id,
+            id=str(model.id),
             email=model.email,
             password=model.password,
-            api_key=model.api_key,
+            api_key_hash=model.api_key_hash,
             is_active=model.is_active,
             created_at=model.created_at,
             updated_at=model.updated_at,
@@ -51,27 +51,27 @@ class UserRepository(IUserRepository):
         if model is None:
             return None
         return User(
-            id=model.id,
+            id=str(model.id),
             email=model.email,
             password=model.password,
-            api_key=model.api_key,
+            api_key_hash=model.api_key_hash,
             is_active=model.is_active,
             created_at=model.created_at,
             updated_at=model.updated_at,
         )
-
+    # TODO: fix this method to verify the hash
     async def get_user_by_api_key(self, api_key: str) -> User | None:
         result = await self._session.execute(
-            select(UserModel).where(UserModel.api_key == api_key)
+            select(UserModel).where(UserModel.api_key_hash == api_key)
         )
         model = result.scalar_one_or_none()
         if model is None:
             return None
         return User(
-            id=model.id,
+            id=str(model.id),
             email=model.email,
             password=model.password,
-            api_key=model.api_key,
+            api_key_hash=model.api_key_hash,
             is_active=model.is_active,
             created_at=model.created_at,
             updated_at=model.updated_at,
@@ -83,14 +83,14 @@ class UserRepository(IUserRepository):
             raise ValueError(f"User {user.id} not found")
         model.email = user.email
         model.password = user.password
-        model.api_key = user.api_key
+        model.api_key_hash = user.api_key_hash
         model.is_active = user.is_active
         await self._session.flush()
         return User(
-            id=model.id,
+            id=str(model.id),
             email=model.email,
             password=model.password,
-            api_key=model.api_key,
+            api_key_hash=model.api_key_hash,
             is_active=model.is_active,
             created_at=model.created_at,
             updated_at=model.updated_at,
@@ -101,10 +101,10 @@ class UserRepository(IUserRepository):
         models = result.scalars().all()
         return [
             User(
-                id=m.id,
+                id=str(m.id),
                 email=m.email,
                 password=m.password,
-                api_key=m.api_key,
+                api_key_hash=m.api_key_hash,
                 is_active=m.is_active,
                 created_at=m.created_at,
                 updated_at=m.updated_at,
