@@ -9,19 +9,20 @@ class CreateUser:
         self._api_key_generator = api_key_generator
     
     async def execute(self, request: CreateUserRequest) -> UserResponse:
-        existing_email = await self._uow.users.get_user_by_email(request.email)
-        if existing_email:
-            raise EmailAlreadyExistsError(request.email)
-        
-        api_key = self._api_key_generator.generate()
-        user = User(
-            email=request.email,
-            password=request.password,
-            api_key=api_key,
-        )
-        
-        created_user = await self._uow.users.create_user(user)
-        await self._uow.commit()
+        async with self._uow as uow:
+            existing_email = await uow.users.get_user_by_email(request.email)
+            if existing_email:
+                raise EmailAlreadyExistsError(request.email)
+            
+            api_key = self._api_key_generator.generate()
+            user = User(
+                email=request.email,
+                password=request.password,
+                api_key=api_key,
+            )
+            
+            created_user = await uow.users.create_user(user)
+            await uow.commit()
         
         return UserResponse(
             id=created_user.id or 0,
