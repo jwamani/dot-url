@@ -10,7 +10,7 @@ from src.infrastructure.config import Settings
 from src.infrastructure.database.connection import create_engine, create_session_factory
 from src.infrastructure.database.unit_of_work import UnitOfWork
 from src.infrastructure.id_generation.nanoid_gen import NanoidIdGenerator
-from src.application.interfaces import IApiKeyGenRepository #TODO: replace with final implementation
+from src.infrastructure.repositories.api_key_repo_impl import APIKeyGen
 
 
 class Container(containers.DeclarativeContainer):
@@ -28,7 +28,7 @@ class Container(containers.DeclarativeContainer):
     )
 
     id_generator = providers.Singleton(NanoidIdGenerator)
-    api_key_generator = providers.Singleton(IApiKeyGenRepository) 
+    api_key_generator = providers.Singleton(APIKeyGen) 
 
     create_short_link = providers.Factory(
         CreateShortLink,

@@ -41,6 +41,7 @@ app = FastAPI(lifespan=lifespan)
 register_exception_handlers(app)
 
 app.include_router(link.router, prefix="/api")
+app.include_router(users.router, prefix="/api")
 
 if __name__ == "__main__":
     uvicorn.run("src.main:app", host="localhost", port=8000, reload=True)
